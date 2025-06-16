@@ -21,16 +21,34 @@
                     <a href="https://www.brightonmet.ac.uk/" target="_blank">Main Site</a> |
                 </nav>
             </div>
-            <div>
-                <!--this is a comment-->
-                <img style="max-width: 100%;" src="assets/images/womanatcomputer.webp" alt="Woman at a pc reading come code">
-            </div>
-            <div>
-                <!--this is a comment-->
-                    <h1> Hello World </h1>
-                    <h2>Hack your Coding Skills!</h2>
-            </div>
         </div>        
-    </header>    
+    </header> 
+    <main>
+        <h1>Complete the form...</h1>
+        <form action="https://formsubmit.co/50147949@stu.gbmc.ac.uk" method="post">
+            <div class="inputarea">
+                <label for="applicantName" class="textboxlable">your name</label>
+                <input id="applicantName" name="applicantName" type="text" required>
+            </div>
+            <div class="inputarea">
+                <label for="applicantEmail" class="textboxlable">your email</label>
+                <input id="applicantEmail" name="applicantEmail" type="email" required>
+            </div>
+            <div class="inputarea">
+                <h2>What languages are you familar with?</h2>
+                <input type="checkbox" id="HTML" name="languages" value="HTML">
+                <lable for="HTML"> HTML </lable>
+                <input type="checkbox" id="CSS" name="languages" value="CSS">
+                <lable for="CSS"> CSS </lable>
+                <input type="checkbox" id="JavaScript" name="languages" value="JavaScript">
+                <lable for="JavaScript"> JavaScript </lable>
+                <input type="checkbox" id="Python" name="languages" value="Python">
+                <lable for="Python"> Python </lable>
+            </div>
+            <div class="inputarea">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </main>   
 </body>
 </html>
