@@ -27,3 +27,8 @@ button:hover{
         margin: 20px;
     }
 }
+
+.textboxlabel{
+    width: 150px;
+    display: inline-block;
+}
