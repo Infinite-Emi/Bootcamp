@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote Decider</title>
+    <script>
+        let message = "";
+        let age = "";
+        function canVote(){
+            age = document.getElementById("age").value;
+            if (age == ""){
+                message = "Please enter your age";
+            }
+            else if (age >= 18){
+                message = "Yes you can take part in democracy";
+            } else {
+                message = "No you cannot take part in democracy. You have " + (18-age) + " years to go till you can vote";
+            }
+            document.getElementById("voteMessage").innerHTML = message;
+        }
+    </script>
+</head>
+<body>
+    <h1>Can I Vote?</h1>
+    <label for="age">Please enter your age in years:</label>
+    <input type="integer" id="age">
+    <button id="voteButton" onclick="canVote()">Click to find out if you can vote.</button>
+    <div id="voteMessage"></div>
+</body>
+</html>

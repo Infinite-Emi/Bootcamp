@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <!-- This specifies the character encoding for the document. UTF-8 is a universal character set that includes almost any character. -->
+    <meta charset="UTF-8"> 
+    <!-- This is the viewport meta tag. It's crucial for responsive design, telling the browser how to control the page's dimensions and scaling on different devices. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- The <title> of the page, which is shown in the browser's title bar or in the page's tab. -->
+    <title>JavaScript Activities</title>
+    
+    <!-- These tags link to Google Fonts to import the "Inter" font for a clean, modern look. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- The <style> tag contains all the CSS rules for the page. This is called an "internal stylesheet". -->
+    <style>
+
+        /* --- Base & Layout Styles --- */
+        /* This rule targets the <body> element of the page. */
+        body {
+            font-family: 'Inter', sans-serif; /* Sets the default font for the whole page. 'sans-serif' is a fallback. */
+            background-color: #f3f4f6; /* Sets a light grey background color. */
+            color: #1f2937; /* Sets a dark grey for the text color. */
+            transition: background-color 0.3s, color 0.3s; /* Makes the theme change smooth over 0.3 seconds. */
+        }
+
+        /* This is a special rule for dark mode. It applies when the <html> element has the class "dark". */
+        .dark body {
+            background-color: #111827; /* Changes the background to a very dark grey. */
+            color: #e5e7eb; /* Changes the text color to a light grey. */
+        }
+
+        /* This class styles the main container that holds all the content. */
+        .main-container {
+            width: 100%; /* Makes the container take up the full width of its parent. */
+            margin-left: auto; /* When combined with `margin-right: auto`, this centers the element horizontally. */
+            margin-right: auto;
+            padding: 1rem; /* Adds 1rem of space on all sides inside the container. */
+            max-width: 56rem; /* Sets a maximum width to prevent the content from becoming too wide on large screens. */
+        }
+        /* These are "media queries". They apply styles only when the screen size meets a certain condition. */
+        /* This makes the layout responsive by adjusting the max-width at different screen size "breakpoints". */
+        @media (min-width: 640px) { .main-container { max-width: 640px; } }
+        @media (min-width: 768px) { .main-container { max-width: 768px; } }
+        @media (min-width: 1024px) { .main-container { max-width: 1024px; } }
+        @media (min-width: 1280px) { .main-container { max-width: 1280px; } }
+
+        /* Styles for the <header> section. */
+        header {
+            text-align: center; /* Centers the text inside the header. */
+            margin-bottom: 2rem; /* Adds 2rem of space below the header. */
+        }
+
+        /* Styles for the main heading (<h1>) inside the header. */
+        header h1 {
+            font-size: 2.25rem; /* Sets a large font size. */
+            font-weight: 700; /* Makes the font bold. */
+            color: #111827; /* Sets a very dark color. */
+        }
+
+        /* Dark mode override for the main heading. */
+        .dark header h1 {
+            color: #ffffff; /* Makes the text white in dark mode. */
+        }
+
+        /* Styles for the paragraph (<p>) inside the header. */
+        header p {
+            color: #4b5563; /* Sets a medium-dark grey color. */
+        }
+
+        /* Dark mode override for the header paragraph. */
+        .dark header p {
+            color: #9ca3af; /* Sets a lighter grey for dark mode. */
+        }
+
+        /* --- Navigation Styles --- */
+        /* Styles for the <nav> bar. */
+        nav {
+            background-color: #ffffff; /* White background. */
+            border-radius: 0.5rem; /* Rounds the corners. */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* Adds a subtle shadow. */
+            padding: 0.5rem; /* Inner spacing. */
+            margin-bottom: 2rem; /* Outer spacing below the nav bar. */
+            display: flex; /* Uses Flexbox for layout, which makes aligning items easy. */
+            justify-content: center; /* Centers the buttons horizontally. */
+            flex-wrap: wrap; /* Allows buttons to wrap to the next line on small screens. */
+            gap: 0.5rem; /* Adds a 0.5rem gap between the buttons. */
+        }
+        /* Dark mode override for the nav bar. */
+        .dark nav {
+            background-color: #1f2937; /* Dark grey background. */
+        }
+
+        /* Styles for the navigation buttons. */
+        .nav-btn {
+            padding: 0.5rem 1rem; /* Sets vertical and horizontal padding. */
+            border-radius: 0.375rem; /* Rounds the button corners. */
+            font-weight: 500; /* Sets a medium font weight. */
+            color: #374151; /* Sets the text color. */
+            transition: background-color 0.2s; /* Smoothly animates the background color change on hover. */
+            border: none; /* Removes the default button border. */
+            background-color: transparent; /* Makes the button background transparent by default. */
+            cursor: pointer; /* Changes the mouse cursor to a pointer on hover to indicate it's clickable. */
+        }
+        /* Style for when the mouse hovers over a nav button. */
+        .nav-btn:hover {
+             background-color: #e5e7eb; /* Light grey background on hover. */
+        }
+        /* Dark mode style for nav buttons. */
+        .dark .nav-btn {
+            color: #d1d5db; /* Lighter text color for dark mode. */
+        }
+        /* Dark mode hover style. */
+        .dark .nav-btn:hover {
+            background-color: #374151; /* Darker grey background on hover. */
+        }
+        /* This style applies ONLY to the nav button that has the 'active' class (added by JavaScript). */
+        .nav-btn.active {
+            background-color: #3b82f6; /* Blue background for the active button. */
+            color: #ffffff; /* White text for the active button. */
+        }
+        /* Dark mode override for the active button to ensure it looks the same. */
+        .dark .nav-btn.active {
+             background-color: #3b82f6;
+        }
+
+        /* --- Page Content Styles --- */
+        /* Styles for the main content boxes for each activity. */
+        .page-content {
+            display: none; /* By default, all activity boxes are hidden. JavaScript will make one visible. */
+            background-color: #fff; /* White background. */
+            padding: 2rem; /* Generous internal spacing. */
+            border-radius: 0.5rem; /* Rounded corners. */
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* A more pronounced shadow. */
+        }
+        /* This rule applies to the content box that has the 'active' class. */
+        .page-content.active {
+            display: block; /* This makes the active content box visible. */
+        }
+        /* Dark mode override for content boxes. */
+        .dark .page-content {
+            background-color: #1f2937; /* Dark grey background. */
+        }
+        
+        /* Styles for the headings (<h2>) inside the content boxes. */
+        .page-content h2 {
+            font-size: 1.5rem; /* Sets the font size. */
+            font-weight: 700; /* Bold font. */
+            margin-bottom: 1rem; /* Space below the heading. */
+        }
+        .dark .page-content h2 {
+             color: #ffffff; /* White text in dark mode. */
+        }
+
+        /* The `>` selector targets only direct children. This styles only the main <p> tag of each activity. */
+        .page-content > p {
+             margin-bottom: 1.5rem; /* Space below the main paragraph. */
+        }
+        .dark .page-content > p {
+            color: #d1d5db; /* Lighter text in dark mode. */
+        }
+        
+        /* Specific style to center-align the content of the guessing game. */
+        #activity4 {
+            text-align: center;
+        }
+
+        /* --- Form & Button Styles --- */
+        /* Styles for the grid that holds the form inputs. */
+        .form-grid {
+            display: grid; /* Use CSS Grid for layout. */
+            grid-template-columns: 1fr; /* Default to a single column layout for mobile. */
+            gap: 1.5rem; /* Sets the space between grid items. */
+            margin-bottom: 1.5rem; /* Space below the grid. */
+        }
+        /* Media query to change the grid layout on larger screens. */
+        @media (min-width: 768px) {
+            .form-grid { grid-template-columns: repeat(2, 1fr); } /* On screens 768px or wider, use a two-column layout. */
+        }
+        
+        /* Styles for the labels of form inputs. */
+        .form-label {
+            display: block; /* Makes the label take up its own line. */
+            font-size: 0.875rem; /* Small font size. */
+            font-weight: 500; /* Medium font weight. */
+            color: #374151; /* Dark grey text. */
+        }
+        .dark .form-label {
+            color: #9ca3af; /* Light grey text in dark mode. */
+        }
+
+        /* Styles for the text input fields. */
+        .form-input {
+            margin-top: 0.25rem; /* Small space above the input. */
+            display: block; /* Take up the full line. */
+            width: 100%; /* Take up the full width of its container. */
+            border-radius: 0.375rem; /* Rounded corners. */
+            border: 1px solid #d1d5db; /* Light grey border. */
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* Very subtle inner shadow. */
+            padding: 0.5rem 0.75rem; /* Internal spacing. */
+        }
+        .dark .form-input {
+            border-color: #4b5563; /* Darker border for dark mode. */
+            background-color: #374151; /* Dark grey background. */
+            color: #e5e7eb; /* Light text color for typing. */
+        }
+        /* This `:focus` pseudo-class applies when the user clicks into the input field. */
+        .form-input:focus {
+            outline: 2px solid transparent; /* Removes the default browser outline. */
+            outline-offset: 2px;
+            border-color: #3b82f6; /* Changes the border color to blue. */
+            box-shadow: 0 0 0 1px #3b82f6; /* Adds a blue "ring" effect for focus. */
+        }
+
+        /* A general 'btn' class with styles shared by all buttons. */
+        .btn {
+            padding: 0.75rem 1.5rem; /* Generous padding. */
+            border-radius: 0.5rem; /* Rounded corners. */
+            font-weight: 600; /* Semi-bold text. */
+            transition: background-color 0.2s; /* Smooth transition on hover. */
+            width: 100%; /* Makes buttons full-width by default. */
+            border: none; /* No border. */
+            cursor: pointer; /* Pointer cursor on hover. */
+        }
+        /* Specific styles for the dark theme button. */
+        .btn-dark-theme {
+            background-color: #1f2937;
+            color: #ffffff;
+        }
+        .btn-dark-theme:hover {
+            background-color: #111827;
+        }
+        /* Specific styles for the light theme button. */
+        .btn-light-theme {
+            background-color: #e5e7eb;
+            color: #000000;
+        }
+        .btn-light-theme:hover {
+            background-color: #d1d5db;
+        }
+        /* A "primary" button style, used for main actions like calculating. */
+        .btn-primary {
+             background-color: #3b82f6; /* Blue background. */
+             color: #ffffff;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb; /* Darker blue on hover. */
+        }
+        /* A "success" button style, used for positive actions like starting the game. */
+        .btn-success {
+            background-color: #22c55e; /* Green background. */
+            color: #ffffff;
+            margin-bottom: 1rem; /* Space below this button. */
+        }
+        .btn-success:hover {
+            background-color: #16a34a; /* Darker green on hover. */
+        }
+        
+        /* --- Component-Specific & Utility Styles --- */
+        /* A simple utility class to hide an element. JavaScript adds/removes this. */
+        .hidden {
+            display: none;
+        }
+
+        /* Styles the container for the two theme buttons. */
+        .theme-buttons-container {
+            display: flex; /* Use flexbox to place buttons side-by-side. */
+            gap: 1rem; /* Creates a 1rem gap between them. */
+        }
+        
+        /* Styles for the boxes that show calculation results. */
+        .result-box {
+            display: none; /* Hidden by default. */
+            margin-top: 1.5rem; /* Space above the box. */
+            padding: 1rem; /* Internal spacing. */
+            background-color: #eff6ff; /* Very light blue background. */
+            border-left: 4px solid #60a5fa; /* A solid blue line on the left for emphasis. */
+            color: #1d4ed8; /* Blue text color. */
+            border-top-right-radius: 0.5rem; /* Rounds only the right-side corners. */
+            border-bottom-right-radius: 0.5rem;
+        }
+        /* Dark mode override for result boxes. */
+        .dark .result-box {
+            background-color: rgba(55, 65, 81, 0.5); /* Semi-transparent dark grey background. */
+            border-color: #3b82f6; /* Brighter blue border. */
+            color: #93c5fd; /* Lighter blue text. */
+        }
+
+        /* Styles the container for the radio buttons (Metric/Imperial). */
+        .radio-group {
+            display: flex;
+            align-items: center; /* Aligns the radio button and text vertically. */
+            gap: 2rem; /* Space between the two radio button options. */
+            margin-bottom: 1rem; /* Space below the group. */
+        }
+        /* Styles the label for each radio button. */
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            cursor: pointer; /* Makes the entire label clickable, not just the radio circle. */
+        }
+        .dark .radio-group label {
+            color: #d1d5db; /* Lighter text in dark mode. */
+        }
+        /* Styles the radio button itself. */
+        .radio-group input {
+            margin-right: 0.5rem; /* Space between the radio circle and its text label. */
+        }
+
+        /* Specific styles for the guessing game's input field. */
+        #guessInput {
+             margin-left: auto; /* Centers the input field. */
+             margin-right: auto;
+             display: block;
+             width: 100%;
+             max-width: 20rem; /* Gives it a maximum width. */
+             text-align: center; /* Centers the text typed inside it. */
+             font-size: 1.125rem; /* Larger font size. */
+        }
+        
+        /* Styles the "Submit Guess" button inside the game area. */
+        #gameArea button {
+            margin-top: 1rem; /* Space above the button. */
+        }
+
+        /* Styles the message box for the game (e.g., "Too high!"). */
+        #gameMessage {
+            margin-top: 1.5rem; /* Space above. */
+            padding: 1rem; /* Internal spacing. */
+            font-size: 1.125rem; /* Larger font. */
+            font-weight: 500; /* Medium weight. */
+        }
+    </style>
+</head>
+<body>
+    <!-- This `div` is the main container that wraps all visible content, styled by the `.main-container` class. -->
+    <div class="main-container">
+        <!-- The `<header>` tag defines a semantic header for the page or a section. -->
+        <header>
+            <!-- `<h1>` is the main heading for the page. -->
+            <h1>JavaScript Activities</h1>
+            <!-- `<p>` is a paragraph tag for the subtitle. -->
+            <p>A collection of simple interactive exercises.</p>
+        </header>
+
+        <!-- The `<nav>` tag defines a set of navigation links. -->
+        <nav>
+            <!-- Each `<button>` is a navigation link. The `onclick` attribute runs a JavaScript function when the button is clicked. -->
+            <button onclick="showPage('activity1')" id="nav-activity1" class="nav-btn">Activity 1: Theme Changer</button>
+            <button onclick="showPage('activity2')" id="nav-activity2" class="nav-btn">Activity 2: Budget Calculator</button>
+            <button onclick="showPage('activity3')" id="nav-activity3" class="nav-btn">Activity 3: BMI Calculator</button>
+            <button onclick="showPage('activity4')" id="nav-activity4" class="nav-btn">Activity 4: Guessing Game</button>
+            <button onclick="showPage('activity5')" id="nav-activity5" class="nav-btn">Activity 5: Dice Roller</button>
+        </nav>
+
+        <!-- The `<main>` tag specifies the main, primary content of the document. -->
+        <main id="main-content">
+            <!-- This is the container for Activity 1. Its `id` is 'activity1', which JavaScript uses to show/hide it. -->
+            <div id="activity1" class="page-content">
+                <h2>Activity 1: Theme Changer</h2>
+                <p>Use the buttons below to change the background and text colour of the entire page.</p>
+                <!-- A container for the theme buttons. -->
+                <div class="theme-buttons-container">
+                    <button onclick="changeTheme('light')" class="btn btn-light-theme">Light Theme</button>
+                    <button onclick="changeTheme('dark')" class="btn btn-dark-theme">Dark Theme</button>
+                </div>
+            </div>
+
+            <!-- Container for Activity 2. -->
+            <div id="activity2" class="page-content">
+                <h2>Activity 2: Budget Calculator</h2>
+                <p>Enter your monthly finances to see your remaining budget.</p>
+                <!-- A grid container for the form inputs. -->
+                <div class="form-grid">
+                    <!-- A block for a single label-input pair. -->
+                    <div>
+                        <!-- The `<label>` tag defines a label for an `<input>` element. The `for` attribute links it to the input's `id`. -->
+                        <label for="income" class="form-label">Monthly Income (£)</label>
+                        <!-- The `<input>` tag. `type="number"` restricts input to numbers. `id` is a unique identifier. `placeholder` is the example text. -->
+                        <input type="number" id="income" class="form-input" placeholder="e.g., 2500">
+                    </div>
+                    <div>
+                        <label for="councilTax" class="form-label">Monthly Council Tax (£)</label>
+                        <input type="number" id="councilTax" class="form-input" placeholder="e.g., 150">
+                    </div>
+                    <div>
+                        <label for="rent" class="form-label">Monthly Rent/Mortgage (£)</label>
+                        <input type="number" id="rent" class="form-input" placeholder="e.g., 800">
+                    </div>
+                    <div>
+                        <label for="utilities" class="form-label">Monthly Utility Bills (£)</label>
+                        <input type="number" id="utilities" class="form-input" placeholder="e.g., 200">
+                    </div>
+                </div>
+                <button onclick="calculateBudget()" class="btn btn-primary">Calculate Budget</button>
+                <!-- This `div` is initially empty and hidden. JavaScript will fill it with results and make it visible. -->
+                <div id="budgetResult" class="result-box"></div>
+            </div>
+
+            <!-- Container for Activity 3. -->
+            <div id="activity3" class="page-content">
+                <h2>Activity 3: BMI Calculator</h2>
+                <p>Select your measurement system and enter your details to calculate your Body Mass Index (BMI).</p>
+                <!-- A container for the radio buttons. -->
+                <div class="radio-group">
+                    <!-- The `name` attribute groups the radio buttons, so only one can be selected at a time. -->
+                    <!-- `checked` makes this the default selection. `onchange` runs a function when the selection changes. -->
+                    <label><input type="radio" name="bmiUnit" value="metric" checked onchange="updateBmiLabels()"> Metric</label>
+                    <label><input type="radio" name="bmiUnit" value="imperial" onchange="updateBmiLabels()"> Imperial</label>
+                </div>
+                <div class="form-grid">
+                    <div>
+                        <label for="weight" id="weightLabel" class="form-label">Weight (kg)</label>
+                        <input type="number" id="weight" class="form-input" placeholder="e.g., 70">
+                    </div>
+                    <div>
+                        <label for="height" id="heightLabel" class="form-label">Height (m)</label>
+                        <input type="number" id="height" class="form-input" placeholder="e.g., 1.75">
+                    </div>
+                </div>
+                <button onclick="calculateBmi()" class="btn btn-primary">Calculate BMI</button>
+                <div id="bmiResult" class="result-box"></div>
+            </div>
+            
+            <!-- Container for Activity 4. -->
+            <div id="activity4" class="page-content">
+                <h2>Activity 4: Number Guessing Game</h2>
+                <p>I'm thinking of a number between 1 and 100. Can you guess it?</p>
+                <button onclick="startNewGame()" class="btn btn-success">Start New Game</button>
+                <!-- This `div` is hidden by default and will be shown by JavaScript when a game starts. -->
+                <div id="gameArea" class="hidden">
+                    <input type="number" id="guessInput" class="form-input">
+                    <button onclick="makeGuess()" class="btn btn-primary">Submit Guess</button>
+                </div>
+                 <!-- This `div` will display game messages like "Too high!" or "Correct!". -->
+                 <div id="gameMessage"></div>
+            </div>
+
+            <div id="activity5" class="page-content">
+                <h2>Activity 5: Dice Roller</h2>
+                <p>Choose how many and what size dice do you want to roll.</p>
+                <div class="form-grid">
+                    <div>
+                        <!-- The `<label>` tag defines a label for an `<input>` element. The `for` attribute links it to the input's `id`. -->
+                        <label for="diceNumber" class="form-label">How many dice would you like to roll?</label>
+                        <!-- The `<input>` tag. `type="number"` restricts input to numbers. `id` is a unique identifier. `placeholder` is the example text. -->
+                        <input type="number" id="diceNumber" class="form-input" placeholder="e.g., 4">
+                    </div>
+                    <div>
+                        <label for="diceSize" class="form-label">How many sides on the dice?</label>
+                        <input type="number" id="diceSize" class="form-input" placeholder="e.g., 6">
+                    </div>
+                </div>
+                <button onclick="rollDice()" class="btn btn-primary">Roll Dice</button>
+                <div id="rollerResult" class="result-box"></div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // --- JAVASCRIPT LOGIC ---
+
+        // This function is the "engine" for our multi-page site. It shows one activity and hides the others.
+        function showPage(pageId) {
+            // Find every element with the class 'page-content' and loop through them.
+            document.querySelectorAll('.page-content').forEach(page => {
+                // For each page, remove the 'active' class. This makes them all hidden (because of the CSS `display: none`).
+                page.classList.remove('active');
+            });
+            // Now, find the one specific page we want to show by its unique ID (the one passed into this function).
+            document.getElementById(pageId).classList.add('active'); // Add the 'active' class to it, making it visible (`display: block`).
+
+            // This part handles the visual feedback on the navigation buttons.
+            // First, find all navigation buttons and loop through them.
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                // Remove the 'active' class from all of them to "reset" their style.
+                btn.classList.remove('active');
+            });
+            // Then, find the one button that corresponds to the page we just showed and add the 'active' class to it.
+            // We build the button's ID string by combining 'nav-' with the pageId.
+            document.getElementById('nav-' + pageId).classList.add('active');
+        }
+
+        // `window.onload` is a special event that fires only after the entire page (HTML, CSS, images) has loaded.
+        // We use an arrow function `() => { ... }` as a modern, short way to define the function that runs on load.
+        window.onload = () => {
+            // We call showPage here to make sure 'activity1' is visible as soon as the user opens the page.
+            // This is better than having a blank screen on startup.
+            showPage('activity1');
+        };
+
+        // This function switches between light and dark themes.
+        function changeTheme(theme) {
+            // Check the 'theme' string that was passed in from the button click.
+            if (theme === 'dark') {
+                // `document.documentElement` refers to the root `<html>` tag of the page.
+                // We add the class 'dark' to it. Our CSS is set up to apply different styles when this class is present.
+                document.documentElement.classList.add('dark');
+            } else {
+                // If the theme is not 'dark', we remove the 'dark' class, which makes the page revert to its default (light) styles.
+                document.documentElement.classList.remove('dark');
+            }
+        }
+
+        // This function reads the budget inputs, calculates the results, and displays them.
+        function calculateBudget() {
+            // Get the value from the 'income' input. `.value` gives a string, so `parseFloat` converts it to a number.
+            // The `|| 0` is a fallback. If the input is empty or not a number, `parseFloat` returns `NaN` (Not a Number).
+            // In that case, `|| 0` makes the value 0, preventing errors in our calculation.
+            const income = parseFloat(document.getElementById('income').value) || 0;
+            const councilTax = parseFloat(document.getElementById('councilTax').value) || 0;
+            const rent = parseFloat(document.getElementById('rent').value) || 0;
+            const utilities = parseFloat(document.getElementById('utilities').value) || 0;
+
+            // Perform the calculations.
+            const totalExpenses = councilTax + rent + utilities; // Add up all the costs.
+            const moneyLeftMonthly = income - totalExpenses; // Subtract costs from income.
+            const moneyLeftWeekly = moneyLeftMonthly / 4.33; // Get an average weekly budget.
+
+            // Get a reference to the `div` element where we will display the result.
+            const resultDiv = document.getElementById('budgetResult');
+
+            // Simple validation: if the income is 0 or less, show a helpful message.
+            if (income <= 0) {
+                 // We use `.innerHTML` to insert HTML content directly into the `div`.
+                 resultDiv.innerHTML = `<p style="font-weight: 700;">Please enter your monthly income.</p>`;
+            } else {
+                // If the income is valid, build a string of HTML to show the results.
+                // `.toFixed(2)` is used to format the numbers to look like currency (e.g., 123.5 becomes "123.50").
+                resultDiv.innerHTML = `
+                    <p style="font-weight: 700;">Your Financial Breakdown:</p>
+                    <p>Money left after bills this month: <span style="font-weight: 600;">£${moneyLeftMonthly.toFixed(2)}</span></p>
+                    <p>Money left to spend each week: <span style="font-weight: 600;">£${moneyLeftWeekly.toFixed(2)}</span></p>
+                `;
+            }
+            // Finally, make the result box visible by changing its CSS `display` style.
+            resultDiv.style.display = 'block';
+        }
+        
+        // This function updates the BMI calculator's interface when the user switches between metric and imperial.
+        function updateBmiLabels() {
+            // `document.querySelector` finds the first element that matches the CSS selector.
+            // Here, it finds the input with name="bmiUnit" that is currently `:checked`, and gets its `value`.
+            const unit = document.querySelector('input[name="bmiUnit"]:checked').value;
+            // Get references to the HTML elements we need to change.
+            const weightLabel = document.getElementById('weightLabel');
+            const heightLabel = document.getElementById('heightLabel');
+            const weightInput = document.getElementById('weight');
+            const heightInput = document.getElementById('height');
+
+            // Use an if/else block to apply the correct text based on the selected unit.
+            if (unit === 'metric') {
+                // `.textContent` changes the text inside an element.
+                weightLabel.textContent = 'Weight (kg)';
+                heightLabel.textContent = 'Height (m)';
+                // `.placeholder` changes the grey example text inside an input field.
+                weightInput.placeholder = 'e.g., 70';
+                heightInput.placeholder = 'e.g., 1.75';
+            } else {
+                // Apply the imperial text if 'metric' is not selected.
+                weightLabel.textContent = 'Weight (pounds)';
+                heightLabel.textContent = 'Height (inches)';
+                weightInput.placeholder = 'e.g., 150';
+                heightInput.placeholder = 'e.g., 70';
+            }
+        }
+
+        // This function calculates the BMI based on the user's input.
+        function calculateBmi() {
+            // Get the currently selected unit, and the weight/height values (and convert them to numbers).
+            const unit = document.querySelector('input[name="bmiUnit"]:checked').value;
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            // Get a reference to the result box.
+            const resultDiv = document.getElementById('bmiResult');
+            // Declare a variable `bmi` to store the result. We initialize it to 0.
+            let bmi = 0;
+
+            // Validation: `isNaN` checks if a value is "Not a Number". This happens if the input is empty or has non-numeric text.
+            // We also check if the numbers are positive.
+            if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+                // If validation fails, show an error message.
+                resultDiv.innerHTML = '<p style="font-weight: 700;">Please enter valid weight and height.</p>';
+                resultDiv.style.display = 'block';
+                // `return` stops the function here so it doesn't try to do the calculation with bad data.
+                return;
+            }
+
+            // Use the correct formula based on the selected unit.
+            if (unit === 'metric') {
+                bmi = weight / (height * height);
+            } else {
+                bmi = 703 * (weight / (height * height));
+            }
+            // Display the final result. `.toFixed(1)` formats the number to one decimal place.
+            resultDiv.innerHTML = `<p style="font-weight: 700;">Your BMI is: <span style="font-weight: 600;">${bmi.toFixed(1)}</span></p>`;
+            resultDiv.style.display = 'block';
+        }
+
+        // These variables are declared "globally" in the script so they can be accessed by multiple functions
+        // and they "remember" their values between function calls.
+        let secretNumber = 0; // Will hold the number the computer is thinking of.
+        let guessCount = 0;   // Will count the user's attempts.
+
+        // This function sets up and starts a new game.
+        function startNewGame() {
+            // `Math.random()` returns a decimal between 0 and 0.999...
+            // `* 100` makes it a decimal between 0 and 99.999...
+            // `Math.floor()` rounds it down to the nearest whole number (0-99).
+            // `+ 1` shifts the range to 1-100.
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            // Reset the guess count to 0.
+            guessCount = 0;
+            // Make the game input area visible by removing the 'hidden' CSS class.
+            document.getElementById('gameArea').classList.remove('hidden');
+            // Clear the input field of any previous guess.
+            document.getElementById('guessInput').value = '';
+            // Get the message box element.
+            const gameMessage = document.getElementById('gameMessage');
+            // Set the starting message.
+            gameMessage.textContent = 'New game started! Make your first guess.';
+            // Set the text color. This checks if dark mode is on and picks an appropriate color.
+            gameMessage.style.color = document.documentElement.classList.contains('dark') ? '#d1d5db' : '#374151';
+        }
+
+        // This function runs every time the user clicks "Submit Guess".
+        function makeGuess() {
+            const userGuess = parseInt(document.getElementById('guessInput').value);
+            const gameMessage = document.getElementById('gameMessage');
+            // Validate the user's input.
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                gameMessage.textContent = 'Please enter a number between 1 and 100.';
+                gameMessage.style.color = '#ef4444';
+                return;
+            }
+            // `guessCount++` is a shortcut for `guessCount = guessCount + 1`.
+            guessCount++;
+
+            if (userGuess < secretNumber) {
+                gameMessage.textContent = 'Too low! Try again.';
+                gameMessage.style.color = '#f59e0b'; // Set text to amber.
+            } else if (userGuess > secretNumber) {
+                gameMessage.textContent = 'Too high! Try again.';
+                gameMessage.style.color = '#f59e0b'; // Set text to amber.
+            } else {
+                gameMessage.textContent = `Correct! You found the number in ${guessCount} guesses.`;
+                gameMessage.style.color = '#22c55e'; // Set text to green for success.
+                // Hide the game area since the game is over.
+                document.getElementById('gameArea').classList.add('hidden');
+            }
+        }
+
+        function rollDice(){
+            const diceResult=[];
+            const rolls = parseInt(document.getElementById('diceNumber').value);
+            const dieSize = parseInt(document.getElementById('diceSize').value);
+            const resultDiv = document.getElementById('rollerResult');
+
+            if (isNaN(rolls) || isNaN(dieSize) || rolls < 1 || dieSize < 1) {
+                // If the inputs are invalid, show an error message in the result box.
+                resultDiv.innerHTML = `<p style="font-weight: 700;">Please enter a valid number of dice and sides (must be 1 or more).</p>`;
+                resultDiv.style.display = 'block';
+                return;
+            }            
+            for (i = 0; i < rolls; i++) {
+                const singleRoll = Math.floor(Math.random() * dieSize) + 1;
+                diceResult.push(singleRoll);
+            }
+            const total = diceResult.reduce((total, current) => total + current, 0);
+            console.log(diceResult);
+            resultDiv.innerHTML = `
+                <p style="font-weight: 700;">You rolled:</p>
+                <p style="font-size: 1.25rem; margin: 0.5rem 0;">${diceResult.join(', ')}</p>
+                <p style="font-weight: 700;">Total: <span style="font-weight: 600;">${total}</span></p>`;
+            // Make the result box visible.
+            resultDiv.style.display = 'block';//document.getElementById("resultBox").value = result.join(", ");
+        }
+    </script>
+</body>
+</html>

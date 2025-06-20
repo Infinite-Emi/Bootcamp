@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <link rel="stylesheet" href="assets/css/helloStyle.css">
+    <script>
+        function sayHello(){
+            document.getElementById("myHeading").innerHTML= "Hello World!";
+        }
+        function changeFont(){
+            document.getElementById("myHeading").style.fontFamily = "Comic Sans MS";
+            document.getElementById("myHeading").style.color = "red";
+            document.getElementById("fontButton").hidden = true;
+        }    
+    </script>
+</head>
+<body>
+    <h1 id="myHeading">My first JavaScript Program</h1>
+    <button onclick="sayHello()">Say Hello</button>
+    <button id="fontButton" onclick="changeFont()">Make it Fun!</button>
+</body>
+</html>
