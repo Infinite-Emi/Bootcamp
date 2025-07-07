@@ -397,28 +397,23 @@
             <button onclick="showPage('activity4')" id="nav-activity4" class="nav-btn">Activity 4: Guessing Game</button>
             <button onclick="showPage('activity5')" id="nav-activity5" class="nav-btn">Activity 5: Dice Roller</button>
             <button onclick="showPage('activity6')" id="nav-activity6" class="nav-btn">Activity 6: Rock Paper Scissors</button>
+            <button onclick="showPage('activity7')" id="nav-activity7" class="nav-btn">Activity 7: Split Payment Calculator</button>
         </nav>
 
-        <!-- The `<main>` tag specifies the main, primary content of the document. -->
         <main id="main-content">
-            <!-- This is the container for Activity 1. Its `id` is 'activity1', which JavaScript uses to show/hide it. -->
             <div id="activity1" class="page-content">
                 <h2>Activity 1: Theme Changer</h2>
                 <p>Use the buttons below to change the background and text colour of the entire page.</p>
-                <!-- A container for the theme buttons. -->
                 <div class="theme-buttons-container">
                     <button onclick="changeTheme('light')" class="btn btn-light-theme">Light Theme</button>
                     <button onclick="changeTheme('dark')" class="btn btn-dark-theme">Dark Theme</button>
                 </div>
             </div>
 
-            <!-- Container for Activity 2. -->
             <div id="activity2" class="page-content">
                 <h2>Activity 2: Budget Calculator</h2>
                 <p>Enter your monthly finances to see your remaining budget.</p>
-                <!-- A grid container for the form inputs. -->
                 <div class="form-grid">
-                    <!-- A block for a single label-input pair. -->
                     <div>
                         <!-- The `<label>` tag defines a label for an `<input>` element. The `for` attribute links it to the input's `id`. -->
                         <label for="income" class="form-label">Monthly Income (£)</label>
@@ -536,39 +531,42 @@
                 <button onclick="startNewRPSGame()" class="btn btn-success" style="margin-top: 1.5rem;">Start New Game</button>
             </div>
             
+            <div id="activity7" class="page-content">
+                <h2>Activity 7: Split Payment Calculator</h2>
+                <p>Enter an amount and choose a payment plan.</p>
+                <!-- <div class="form-grid"> -->
+                    <div>
+                        <label for="paymentAmount" class="form-label">How much are you paying? (£)</label>
+                        <input type="number" id="paymentAmount" class="form-input" placeholder="e.g., 4">
+                    </div>
+                    <div>
+                        <label for="installments" class="form-label">Number of Installments:</label>
+                        <input type="range" id="installmentsSlider" name="installments" min="1" max="24" value="1">
+                        <span id="sliderValue">1</span>
+                    </div>
+                <div id="paymentResult" class="payment-output"></div>
+
+
+                
+            </div>
 
         </main>
     </div>
 
     <script>
         // --- JAVASCRIPT LOGIC ---
-
-        // This function is the "engine" for our multi-page site. It shows one activity and hides the others.
         function showPage(pageId) {
-            // Find every element with the class 'page-content' and loop through them.
             document.querySelectorAll('.page-content').forEach(page => {
-                // For each page, remove the 'active' class. This makes them all hidden (because of the CSS `display: none`).
                 page.classList.remove('active');
             });
-            // Now, find the one specific page we want to show by its unique ID (the one passed into this function).
-            document.getElementById(pageId).classList.add('active'); // Add the 'active' class to it, making it visible (`display: block`).
-
-            // This part handles the visual feedback on the navigation buttons.
-            // First, find all navigation buttons and loop through them.
+            document.getElementById(pageId).classList.add('active');
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                // Remove the 'active' class from all of them to "reset" their style.
                 btn.classList.remove('active');
             });
-            // Then, find the one button that corresponds to the page we just showed and add the 'active' class to it.
-            // We build the button's ID string by combining 'nav-' with the pageId.
             document.getElementById('nav-' + pageId).classList.add('active');
         }
 
-        // `window.onload` is a special event that fires only after the entire page (HTML, CSS, images) has loaded.
-        // We use an arrow function `() => { ... }` as a modern, short way to define the function that runs on load.
         window.onload = () => {
-            // We call showPage here to make sure 'activity1' is visible as soon as the user opens the page.
-            // This is better than having a blank screen on startup.
             showPage('activity1');
         };
 
@@ -757,8 +755,41 @@
             resultDiv.style.display = 'block';
         }
 
+        // Get the slider and the display element
+        const slider = document.getElementById('installmentsSlider');
+        const sliderDisplay = document.getElementById('sliderValue');
+        const amountInput  = document.getElementById('paymentAmount');
+        const resultDisplay = document.getElementById('paymentResult');
 
+        // --- Main Calculation and Display Function ---
+        function calculateAndDisplay() {
+            const totalAmount = parseFloat(amountInput.value);
+            const installments = parseInt(slider.value);
+            sliderDisplay.textContent = installments;
+            // Check for valid input before calculating
+            if (isNaN(totalAmount) || totalAmount <= 0) {
+                resultDisplay.textContent = 'Please enter a valid amount.';
+                return;
+            }
 
-</script>
+            // --- Calculation Logic ---
+            if (installments === 1) {
+                resultDisplay.textContent = `Your single payment is £${totalAmount.toFixed(2)}.`;
+            } else {
+                const standardPayment = Math.ceil(totalAmount / installments);
+                const totalOfStandardPayments = standardPayment * (installments - 1);
+                const finalPayment = totalAmount - totalOfStandardPayments;
+                if (finalPayment <= 0) {
+                    resultDisplay.innerHTML = 'Plan not valid.';
+                    return;
+                }
+                resultDisplay.innerHTML = `Your plan: <strong>${installments - 1}</strong> payments of <strong>£${standardPayment}</strong> and a final payment of <strong>£${finalPayment.toFixed(2)}</strong>.`;
+            }
+        }
+        // --- Activity 7 Event Listeners ---
+        amountInput.addEventListener('input', calculateAndDisplay);
+        slider.addEventListener('input', calculateAndDisplay);
+        calculateAndDisplay();
+    </script>
 </body>
 </html>
